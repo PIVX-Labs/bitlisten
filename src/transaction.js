@@ -2,7 +2,7 @@
  *  @constructor
  *  @extends Floatable
  */
-function Transaction(bitcoins, highlight, currency, currencyName) {
+ function Transaction(bitcoins, highlight, currency, currencyName) {
 	if (document.visibilityState === "visible") {
 		Floatable.call(this);
 
@@ -17,9 +17,9 @@ function Transaction(bitcoins, highlight, currency, currencyName) {
 	    if(globalShowDollar === true) {
     		bitcoinString = "$" + (bitcoins*globalRate).toFixed(0);
     	} else if (bitcoinVal === "0.00") {
-	        bitcoinString = "&lt;<span class='bitcoinsymbol'>B</span>0.01";
+	        bitcoinString = "&lt;0.01<span class='bitcoinsymbol'>PIV</span>";
 	    } else {
-	        bitcoinString = "<span class='bitcoinsymbol'>B</span>" + bitcoinVal;
+	        bitcoinString = bitcoinVal + "<span class='bitcoinsymbol'>PIV</span>" ;
 	    }
 	
 		if (!highlight) {

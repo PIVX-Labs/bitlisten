@@ -36,7 +36,7 @@ module.exports = function(grunt) {
     watch: {
       all: {
         files: srcFiles.concat(['Gruntfile.js']),
-        tasks: ['newer:jshint:all', 'uglify', 'connect'],
+        tasks: ['uglify', 'connect'],
         options: {
           interrupt: true,
           atBegin: true
@@ -47,10 +47,9 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-contrib-watch');
   
-  grunt.registerTask('default', ['jshint', 'uglify']);
+  grunt.registerTask('default', ['uglify']);
 };
 

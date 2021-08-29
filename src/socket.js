@@ -2,7 +2,7 @@ var satoshi = 100000000;
 var DELAY_CAP = 20000;
 var lastBlockHeight = 0;
 
-var provider_name = "blockchain.info";
+var provider_name = "mypivxwallet.org";
 
 var transactionSocketDelay = 1000;
 
@@ -11,110 +11,84 @@ function TransactionSocket() {
 
 }
 
+var arrFoundTXs = [];
+var arrFoundBlocks = [];
+
+var checkInterval = null;
+var mempoolReq;
+var blockReq;
+
+function processMempool() {
+	if (mempoolReq.status == 200) {
+		var arrTXs = JSON.parse(mempoolReq.responseText);
+		StatusBox.connected("blockchain");
+		// Loop all TXs in the mempool
+		for (var i=0; i<arrTXs.length; i++) {
+			// Skip TXs we've already seen
+			if (arrFoundTXs.find(function (a) { return a === arrTXs[i].txid })) continue;
+			console.log('New mempool TX! ' + arrTXs[i].txid);
+			arrFoundTXs.push(arrTXs[i].txid);
+			// Calculate TX traits
+			var nValue = 0;
+			for (var n=0; n<arrTXs[i].vout.length; n++) {
+				nValue += arrTXs[i].vout[n].value;
+			}
+			// If it has a value, send it!
+			if (nValue > 0)
+				new Transaction(nValue);
+		}
+	} else {
+		console.error('Mempool Error!');
+		console.error(mempoolReq.responseText);
+	}
+}
+
+function processBlock() {
+	if (blockReq.status === 200) {
+		var cBlock = JSON.parse(blockReq.responseText);
+		StatusBox.connected("blockchain");
+		if (arrFoundBlocks.find(function (a) { return a === cBlock.hash })) return;
+		arrFoundBlocks.push(cBlock.hash);
+		// Skip the first block (page load)
+		if (arrFoundBlocks.length > 1)
+			new Block(cBlock.height, cBlock.tx.length, 0, cBlock.size);
+	} else {
+		console.error('Block Error!');
+		console.error(blockReq.responseText);
+	}
+}
+
+function checkForNewTxOrBlock() {
+	// Check the mempool
+	mempoolReq = null;
+	mempoolReq = new XMLHttpRequest();
+	mempoolReq.onload = processMempool;
+	mempoolReq.open('GET', 'https://stakecubecoin.net/pivx/mempool');
+	mempoolReq.send();
+	// Check for a new block
+	blockReq = null;
+	blockReq = new XMLHttpRequest();
+	blockReq.onload = processBlock;
+	blockReq.open('GET', 'https://stakecubecoin.net/pivx/bestblock');
+	blockReq.send();
+}
+
 TransactionSocket.init = function() {
 	// Terminate previous connection, if any
-	if (TransactionSocket.connection)
-		TransactionSocket.connection.close();
-
-	if ('WebSocket' in window) {
-		var connection = new ReconnectingWebSocket('wss://ws.blockchain.info/inv');
-		TransactionSocket.connection = connection;
-
-		StatusBox.reconnecting("blockchain");
-
-		connection.onopen = function() {
-			console.log('Blockchain.info: Connection open!');
-			StatusBox.connected("blockchain");
-			var newTransactions = {
-				"op" : "unconfirmed_sub"
-			};
-			var newBlocks = {
-				"op" : "blocks_sub"
-			};
-			connection.send(JSON.stringify(newTransactions));
-			connection.send(JSON.stringify(newBlocks));
-			connection.send(JSON.stringify({
-				"op" : "ping_tx"
-			}));
-			// Display the latest transaction so the user sees something.
-		};
-
-		connection.onclose = function() {
-			console.log('Blockchain.info: Connection closed');
-			if ($("#blockchainCheckBox").prop("checked"))
-				StatusBox.reconnecting("blockchain");
-			else
-				StatusBox.closed("blockchain");
-		};
-
-		connection.onerror = function(error) {
-			console.log('Blockchain.info: Connection Error: ' + error);
-		};
-
-		connection.onmessage = function(e) {
-			
-			var data = JSON.parse(e.data);
-			
-			if (data.op == "no_data") {
-			    TransactionSocket.close();
-			    setTimeout(TransactionSocket.init, transactionSocketDelay);
-			    transactionSocketDelay *= 2;
-			    console.log("connection borked, reconnecting");
-			}
-
-			// New Transaction
-			if (data.op == "utx") {
-				var transacted = 0;
-
-				for (var i = 0; i < data.x.out.length; i++) {
-					transacted += data.x.out[i].value;
-				}
-
-				var bitcoins = transacted / satoshi;
-				//console.log("Transaction: " + bitcoins + " BTC");
-
-				var donation = false;
-                                var soundDonation = false;
-				var outputs = data.x.out;
-				for (var j = 0; j < outputs.length; j++) {
-					if ((outputs[j].addr) == DONATION_ADDRESS) {
-						bitcoins = data.x.out[j].value / satoshi;
-						new Transaction(bitcoins, true);
-						return;
-					}
-				}
-
-                if (transaction_count === 0) {
-                    new Transaction(bitcoins);
-                } else {
-				    setTimeout(function() {
-					    new Transaction(bitcoins);
-				    }, Math.random() * DELAY_CAP);
-				}
-
-			} else if (data.op == "block") {
-				var blockHeight = data.x.height;
-				var transactions = data.x.nTx;
-				var volumeSent = data.x.estimatedBTCSent;
-				var blockSize = data.x.size;
-				// Filter out the orphaned blocks.
-				if (blockHeight > lastBlockHeight) {
-					lastBlockHeight = blockHeight;
-					console.log("New Block");
-					new Block(blockHeight, transactions, volumeSent, blockSize);
-				}
-			}
-
-		};
+	if (checkInterval !== null) {
+		clearInterval(checkInterval);
+		checkInterval = null;
 	} else {
-		//WebSockets are not supported.
-		console.log("No websocket support.");
-		StatusBox.nosupport("blockchain");
+		StatusBox.reconnecting("blockchain");
 	}
+
+	checkInterval = setInterval(checkForNewTxOrBlock, 2500);
 };
 
 TransactionSocket.close = function() {
-	if (TransactionSocket.connection)
-		TransactionSocket.connection.close();
-	StatusBox.closed("blockchain");
+	if (checkInterval !== null) {
+		clearInterval(checkInterval);
+		checkInterval = null;
+		StatusBox.closed("blockchain");
+	}
 };

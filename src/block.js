@@ -2,17 +2,17 @@
  *  @constructor
  *  @extends Floatable
  */
-function Block(height, numTransactions, outputTotal, blockSize) {
+ function Block(height, numTransactions, outputTotal, blockSize) {
 	if (document.visibilityState === "visible") {
 		Floatable.call(this);
 
-		var outputBTC = Math.floor(outputTotal / satoshi) + " BTC";
-		var blockSizeKB = Math.floor(blockSize / 1024) + " KB";
+		var outputBTC = outputTotal.toLocaleString('en-GB', { maximumFractionDigits: 2 }) + " PIV";
+		var blockSizeKB = (blockSize / 1000).toLocaleString('en-GB', { maximumFractionDigits: 2 }) + " KB";
 
 		this.width = this.height = 500;
 
 		this.addImage(blockImage, this.width, this.height);
-		this.addText("Block #" + height + "<br />Number of Transactions: " + numTransactions + "<br />Transaction Volume: " + outputBTC + "<br />Block Size: " + blockSizeKB);
+		this.addText("Block #" + height.toLocaleString('en-GB') + "<br />Number of Transactions: " + numTransactions + /*"<br />Transaction Volume: " + outputBTC +*/ "<br />Block Size: " + blockSizeKB);
 		this.initPosition();
 	
         // Sound
