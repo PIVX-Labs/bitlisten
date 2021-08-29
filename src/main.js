@@ -115,8 +115,6 @@ $(window).bind("load", function() {
 	} else {
 		if ($("#blockchainCheckBox").prop("checked"))
 			TransactionSocket.init();
-		if ($("#mtgoxCheckBox").prop("checked"))
-			TradeSocket.init();
 	}
 
 	window.requestAnimationFrame(globalUpdate);
@@ -167,6 +165,5 @@ $(window).resize(function() {
 window.onbeforeunload = function(e) {
 	clearInterval(globalUpdate);
 	TransactionSocket.close();
-	TradeSocket.close();
 };
 
