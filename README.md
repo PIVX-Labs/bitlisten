@@ -1,8 +1,8 @@
-## BitListen - Bitcoin Transaction Visualizer ##
+## BitListen - PIVX Transaction Visualizer ##
 
-Current version hosted at [**BitListen.com**](http://bitlisten.com/). Project formerly known as "Listen to Bitcoin" (ListenToBitcoin.com has been sold.)
+Current version hosted at [**PIVX-Labs.github.io/bitlisten**](https://pivx-labs.github.io/bitlisten/). Forked from a project formerly known as "Listen to Bitcoin" (ListenToBitcoin.com has been sold.)
 
-Realtime Bitcoin transaction visualizer written in HTML/Javascript. See and hear new transactions and blocks as they propagate through the Bitcoin Network.
+Realtime PIVX transaction visualizer written in HTML/Javascript. See and hear new transactions and blocks as they propagate through the Bitcoin Network.
 
 ### Building ###
 
@@ -23,12 +23,10 @@ The compiled/minified script will be output to `bitlisten.min.js`.
 BitListen uses these libraries:
 
 * [Howler.js](http://goldfirestudios.com/blog/104/howler.js-Modern-Web-Audio-Javascript-Library) by James Simpson
-* [Reconnecting-Websocket](https://github.com/joewalnes/reconnecting-websocket) by Joe Walnes
 
 BitListen uses these APIs:
 
-* [Blockchain.info](https://blockchain.info/) WebSocket API (For Transactions)
-* [Bitstamp.net](https://www.bitstamp.net/) WebSocket API (For Price Ticker)
+* [MyPIVXWallet.org APIs](https://mypivxwallet.org/) REST API (For Transactions and Blocks)
 
 ### License ###
 
