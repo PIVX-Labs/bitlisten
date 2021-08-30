@@ -48,13 +48,13 @@
 	        </script>
 	</head>
 	<body>
-		<div id="header" class="serif interface">
+		<div id="header" class="interface">
 			<div style="display: none;" id="rateBox">
 				<span id="rate">---</span> <span id="units">USD / PIVX</span><br />
 				<span class="rateButton" id="bitstampRate" onclick="switchExchange('bitstamp');">Bitstamp</span>
 			</div>
 			<img src="images/logo.png" alt="BitListen">
-			<div id="headerInfo">
+			<div id="headerInfo" style="font-family: Helvetica;">
 				<p>
 					Realtime PIVX transaction visualizer.
 				</p>
@@ -126,7 +126,7 @@
 			</td>
 			</tr>
 		</table>
-		<div id="hideInterface" class="serif" onclick='toggleInterface()'>[ Hide Interface ]</div>
+		<div id="hideInterface" class="monospace" onclick='toggleInterface()'>[ Hide Interface ]</div>
 		<div id="noJavascript">
 			<p>
 				Please enable Javascript, or try a different web browser.

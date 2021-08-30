@@ -143,8 +143,11 @@ a {
 	color: white;
 	width: 100%;
 	text-align: center;
-	background-color: black;
+	background-color: #120024;
 	padding: 10px;
+	border-bottom-color: darkslateblue;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
 }
 
 #donationAddress {
@@ -181,6 +184,11 @@ a {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
+	height: 75px;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 100%;
+	border-color: darkslateblue;
 }
 
 #volumeWrapper {
