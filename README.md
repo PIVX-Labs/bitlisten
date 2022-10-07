@@ -2,11 +2,11 @@
 
 Current version hosted at [**PIVX-Labs.github.io/bitlisten**](https://pivx-labs.github.io/bitlisten/). Forked from a project formerly known as "Listen to Bitcoin" (ListenToBitcoin.com has been sold.)
 
-Realtime PIVX transaction visualizer written in HTML/Javascript. See and hear new transactions and blocks as they propagate through the Bitcoin Network.
+Realtime PIVX transaction visualizer written in HTML/JavaScript. See and hear new transactions and blocks as they propagate through the Bitcoin Network.
 
 ### Building ###
 
-The project is built and ready-to-go. If you change any of the javascript, you will need to re-build the `bitlisten.min.js` file using Grunt. If you haven't used Grunt before, here is a short tutorial:
+The project is built and ready-to-go. If you change any of the JavaScript, you will need to re-build the `bitlisten.min.js` file using Grunt. If you haven't used Grunt before, here is a short tutorial:
 
 1. [Install Node.js](https://nodejs.org/download/).
 
