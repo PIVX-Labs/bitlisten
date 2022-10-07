@@ -151,15 +151,7 @@ a {
 }
 
 #donationAddress {
-	color: yellow;
-}
-
-#rateBox {
-	position: absolute;
-	text-align: left;
-	bottom: 10px;
-	left: 2em;
-	line-height: 1;
+	color: #cb8bff;
 }
 
 #rate {

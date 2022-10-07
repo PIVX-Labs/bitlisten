@@ -7,7 +7,7 @@
 		<title>BitListen - PIVX Transaction Visualizer</title>
 		<meta name="title" content="BitListen - PIVX Transaction Visualizer">
 		<meta name="description" content="Realtime PIVX transaction visualizer. See and hear new transactions and blocks as they occur.">
-		<meta name="keywords" content="BitListen,Listen To Bitcoin,Listen To PIVX,PIVX,transactions,visualizer,trades,mtgox,blockchain">		
+		<meta name="keywords" content="BitListen,Listen To Bitcoin,Listen To PIVX,PIVX,transactions,visualizer,trades,blockchain">		
 		<meta name="author" content="PIVX Labs">
 
 		<meta name="mobile-web-app-capable" content="yes">
@@ -68,17 +68,13 @@
 	</head>
 	<body>
 		<div id="header" class="interface">
-			<div style="display: none;" id="rateBox">
-				<span id="rate">---</span> <span id="units">USD / PIVX</span><br />
-				<span class="rateButton" id="bitstampRate" onclick="switchExchange('bitstamp');">Bitstamp</span>
-			</div>
 			<img src="images/logo.png" alt="BitListen">
 			<div id="headerInfo" style="font-family: Helvetica;">
 				<p>
 					Realtime PIVX transaction visualizer.
 				</p>
-				<p style="display: none;">
-					Most donations get highlighted: <span id="donationAddress" qrtarget="bitcoin:1istendqWJ1mKvrdRUQZDL2F3tVDDyKdj">1istendqWJ1mKvrdRUQZDL2F3tVDDyKdj</span>
+				<p>
+					Donations get highlighted: <span id="donationAddress" qrtarget="pivx:DLabsktzGMnsK5K9uRTMCF6NoYNY6ET4Bb">DLabsktzGMnsK5K9uRTMCF6NoYNY6ET4Bb</span>
 					<br />
 					<span id="musicianDonation"></span>
 				</p>
@@ -126,12 +122,6 @@
 								<label>
 									<input id="scalePitchCheckBox" type='checkbox' checked="checked" onchange='globalScalePitch = this.checked'>
 										Scale pitch with transaction amount<br />(bigger transaction = deeper sound)
-								</label>
-							</p>
-							<p style="display: none;">
-								<label class="disabled">
-								    <input id="showDollarCheckBox" type='checkbox' onchange='globalShowDollar = this.checked' disabled="disabled">
-									Show units in USD instead of PIV
 								</label>
 							</p>
 						</div>

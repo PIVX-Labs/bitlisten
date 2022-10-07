@@ -1,8 +1,7 @@
-var globalVolume = 50;
-var globalScalePitch;
-var globalBank;
-var globalShowDollar = false;
-var globalAudioUnlocked = true;
+let globalVolume = 50;
+let globalScalePitch;
+let globalAudioUnlocked = true;
+
 //init volume at 50%
 Howler.volume(globalVolume * 0.01);
 
@@ -16,21 +15,18 @@ function Sound() {
 
 }
 
-var soundBank = [];
+const soundBank = [];
 	// the second number is the number of sound files available
 	soundBank[0] = ["celesta", 22];
 	soundBank[1] = ["planet", 33];
 	soundBank[2] = ["wikki", 13];
 
 function zeroPad(num, places) {
-	var zero = places - num.toString().length + 1;
+	const zero = places - num.toString().length + 1;
 	return Array(+(zero > 0 && zero)).join("0") + num;
 }
 	
 Sound.loadup = function(){
-	var newSound;
-	var istring;
-
 	// sound0 = celesta
 	sound0 = []; 
 
@@ -90,7 +86,6 @@ Sound.init = function() {
 };
 
 Sound.change = function(instrument_number) {
-	var musicianString = "Donate to instrument creator: ";
 	var i;
 	// INSTRUMENT 0
 	if (instrument_number === 0 ) {
@@ -128,7 +123,6 @@ Sound.change = function(instrument_number) {
 		}
 		currentSound = sound0;
 		currentSwells = swells0;
-		$('#musicianDonation').text("");
 	}
 	// INSTRUMENT 1
 	else if (instrument_number === 1) {
@@ -156,8 +150,6 @@ Sound.change = function(instrument_number) {
 		}
 		currentSound = sound1;
 		currentSwells = swells1;
-		SOUND_DONATION_ADDRESS = "144b31mmaWQVDQFiUPo6HEzxc2Dm83WXrW";
-		$('#musicianDonation').html(musicianString + "<span>" + SOUND_DONATION_ADDRESS + "</span>");
 	}
     // INSTRUMENT 2
 	else if (instrument_number === 2) {
@@ -185,32 +177,29 @@ Sound.change = function(instrument_number) {
 		}
 	    currentSound = sound2;
 		currentSwells = swells2;
-		SOUND_DONATION_ADDRESS = "1JFaYRGkDmhpSTbFKwqDWKr2ncvvrgYEAV";
-		$('#musicianDonation').html(musicianString + "<span>" + SOUND_DONATION_ADDRESS + "</span>");
 		}
 };
 
-var currentNotes = 0;
-var noteTimeout = 500;
+let currentNotes = 0;
+const noteTimeout = 500;
 
 Sound.playRandomAtVolume = function(volume) {
-	if (globalMute)
-		return;
+	if (globalMute) return;
 		
-	var randomPitch = Math.floor(Math.random() * 100);
+	const randomPitch = Math.floor(Math.random() * 100);
 	Sound.playPitchAtVolume(volume, randomPitch);
 };
 
 Sound.playPitchAtVolume = function(volume, pitch) {
-	if (globalMute)
-		return;
+	if (globalMute) return;
+
 	// Find the index corresponding to the requested pitch
-	var index = Math.floor(pitch / 100.0 * currentSound.length);
+	let index = Math.floor(pitch / 100.0 * currentSound.length);
 	//console.log("Pitch: " + pitch);
 	
 	// Here we fuzz the index a bit to prevent the same sound
 	// from being heard over and over again, which gets annoying
-	var fuzz = Math.floor(Math.random() * 4) - 2;
+	const fuzz = Math.floor(Math.random() * 4) - 2;
 	index += fuzz;
 	index = Math.min(currentSound.length - 1, index);
 	index = Math.max(0, index);
@@ -232,8 +221,7 @@ Sound.playPitchAtVolume = function(volume, pitch) {
 
 var lastBlockSound = -1;
 Sound.playRandomSwell = function() {
-	if (globalMute)
-		return;
+	if (globalMute) return;
 
 	var randomIndex;
 	do {

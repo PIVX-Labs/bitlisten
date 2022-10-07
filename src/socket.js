@@ -1,94 +1,119 @@
-var satoshi = 100000000;
-var DELAY_CAP = 20000;
-var lastBlockHeight = 0;
-
-var provider_name = "mypivxwallet.org";
-
-var transactionSocketDelay = 1000;
+// The TX offset for coinbase transactions, avoids including them in 'output' or TX count calcs
+const COINBASE_OFFSET = 2;
 
 /** @constructor */
 function TransactionSocket() {
 
 }
 
-var arrFoundTXs = [];
-var arrFoundBlocks = [];
+const arrFoundTXs = [];
+let strLastBlock = "";
 
-var checkInterval = null;
-var mempoolReq;
-var blockReq;
+let checkInterval = null;
 
-function processMempool() {
-	if (mempoolReq.status == 200) {
-		var arrTXs = JSON.parse(mempoolReq.responseText);
-		StatusBox.connected("blockchain");
-		// Loop all TXs in the mempool
-		for (var i=0; i<arrTXs.length; i++) {
-			// Skip TXs we've already seen
-			if (arrFoundTXs.find(function (a) { return a === arrTXs[i].txid })) continue;
-			console.log('New mempool TX! ' + arrTXs[i].txid);
-			arrFoundTXs.push(arrTXs[i].txid);
-			// Calculate TX traits
-			var nValue = 0;
-			for (var n=0; n<arrTXs[i].vout.length; n++) {
-				nValue += arrTXs[i].vout[n].value;
-			}
-			// If it has a value, send it!
-			if (nValue > 0)
-				new Transaction(nValue);
+// Process an individual TX's properties and push it to the frontend
+function processTx(txReq) {
+	if (txReq.status == 200) {
+		// Parse mempool from request
+		const cTx = JSON.parse(txReq.responseText);
+		StatusBox.connected();
+
+		// Remember this TX
+		arrFoundTXs.push(cTx.txid);
+
+		// Calculate TX traits
+		const nValue = cTx.vout.reduce((a, b) => a + Number(b.value), 0) / COIN;
+
+		// If it has a value, send it!
+		if (nValue) {
+			// Check if a donation highlight is needed
+			const fHighlight = cTx.vout.some(a => a.addresses.includes(DONATION_ADDRESS));
+
+			new Transaction(nValue, fHighlight);
 		}
 	} else {
-		console.error('Mempool Error!');
-		console.error(mempoolReq.responseText);
+		console.error('Tx Error!');
+		console.error(txReq.responseText);
 	}
 }
 
-function processBlock() {
+// Process a block's properties and push it to the frontend
+function processBlock(blockReq) {
 	if (blockReq.status === 200) {
-		var cBlock = JSON.parse(blockReq.responseText);
-		StatusBox.connected("blockchain");
-		if (arrFoundBlocks.find(function (a) { return a === cBlock.hash })) return;
-		arrFoundBlocks.push(cBlock.hash);
-		// Skip the first block (page load)
-		if (arrFoundBlocks.length > 1)
-			new Block(cBlock.height, cBlock.tx.length, 0, cBlock.size);
+		// Parse block from request
+		const cBlock = JSON.parse(blockReq.responseText);
+		StatusBox.connected();
+
+		// Do we have a next block yet? And don't check the same block twice!
+		if (cBlock.nextBlockHash) return checkForNewTxOrBlock(true, cBlock.nextBlockHash);
+		else if (cBlock.hash === strLastBlock) return;
+
+		// Remember this block
+		strLastBlock = cBlock.hash;
+
+		// Calculate money movement (excluding coinbase)
+		const nMoved = cBlock.txs.slice(COINBASE_OFFSET, cBlock.txCount).reduce((a, b) => a + b.vout.reduce((c, d) => c + Number(d.value), 0), 0) / COIN;
+
+		// Push block to frontend handler
+		new Block(cBlock.height, cBlock.txCount - COINBASE_OFFSET, nMoved, cBlock.size);
 	} else {
 		console.error('Block Error!');
 		console.error(blockReq.responseText);
 	}
 }
 
-function checkForNewTxOrBlock() {
+// Fetch an individual raw TX and process it
+function getTx(strHash) {
+	// Skip TXs we've already seen (saves a ton of bandwidth!)
+	if (arrFoundTXs.includes(strHash)) return;
+
+	const txReq = new XMLHttpRequest();
+	txReq.onload = function () { processTx(txReq) };
+	txReq.open('GET', 'https://zkbitcoin.com/api/v2/tx/' + strHash);
+	txReq.send();
+}
+
+// Check for either new mempool changes or new blocks
+function checkForNewTxOrBlock(fBlockOnly = false, strBlockHash = strLastBlock) {
 	// Check the mempool
-	mempoolReq = null;
-	mempoolReq = new XMLHttpRequest();
-	mempoolReq.onload = processMempool;
-	mempoolReq.open('GET', 'https://stakecubecoin.net/pivx/mempool');
-	mempoolReq.send();
-	// Check for a new block
-	blockReq = null;
-	blockReq = new XMLHttpRequest();
-	blockReq.onload = processBlock;
-	blockReq.open('GET', 'https://stakecubecoin.net/pivx/bestblock');
-	blockReq.send();
+	if (!fBlockOnly) {
+		const mempoolReq = new XMLHttpRequest();
+		mempoolReq.onload = function () {
+			// Parse the mempool and fetch each raw TX for processing
+			const arrMempool = JSON.parse(mempoolReq.responseText).mempool;
+			arrMempool.forEach(cTx => getTx(cTx.txid));
+		};
+		mempoolReq.open('GET', 'https://zkbitcoin.com/api/v2/mempool/');
+		mempoolReq.send();
+	}
+
+	// Grab our current block hash, if none exist
+	if (!strLastBlock) {
+		const initBlockReq = new XMLHttpRequest();
+		initBlockReq.onload = function () {
+			strLastBlock = JSON.parse(initBlockReq.responseText).backend.bestBlockHash;
+			checkForNewTxOrBlock(true);
+		};
+		initBlockReq.open('GET', 'https://zkbitcoin.com/api/v2/api');
+		initBlockReq.send();
+	} else {
+		// Otherwise, fetch the current block (or next block if available)
+		const blockReq = new XMLHttpRequest();
+		blockReq.onload = function () { processBlock(blockReq) };
+		blockReq.open('GET', 'https://zkbitcoin.com/api/v2/block/' + strBlockHash);
+		blockReq.send();
+	}
 }
 
 TransactionSocket.init = function() {
 	// Terminate previous connection, if any
-	if (checkInterval !== null) {
-		clearInterval(checkInterval);
-		checkInterval = null;
-	} else {
-		StatusBox.reconnecting("blockchain");
-	}
+	clearInterval(checkInterval);
+	StatusBox.reconnecting();
 
-	checkInterval = setInterval(checkForNewTxOrBlock, 2500);
+	checkInterval = setInterval(checkForNewTxOrBlock, 5000);
 };
 
 TransactionSocket.close = function() {
-	if (checkInterval !== null) {
-		clearInterval(checkInterval);
-		checkInterval = null;
-		StatusBox.closed("blockchain");
-	}
+	clearInterval(checkInterval);
+	StatusBox.closed();
 };

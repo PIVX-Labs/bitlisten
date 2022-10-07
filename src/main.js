@@ -1,34 +1,32 @@
 // Set debugmode to true and transactions/trades will be
 // randomly generated, and no outside connections will be made.
-var DEBUG_MODE = false;
+let DEBUG_MODE = false;
 
-var DONATION_ADDRESS;
-var SOUND_DONATION_ADDRESS;
+const COIN = 1e8;
 
-var globalMute = false;
+const provider_name = "mypivxwallet.org";
 
-var instanceId = 0;
-var pageDivId = "pageDiv";
+let DONATION_ADDRESS;
 
-var last_update = 0;
+let globalMute = false;
 
-var updateTargets = [];
+let last_update = 0;
 
-var transaction_count = 0;
+const updateTargets = [];
 
 // Preload images
-var bubbleImage = new Image();
+const bubbleImage = new Image();
 bubbleImage.src = "images/bubble.png";
-var blockImage = new Image();
+const blockImage = new Image();
 blockImage.src = "images/block.png";
 
-var debugSpawner;
+let debugSpawner;
 
-var updateLayoutWidth = function() {
+const updateLayoutWidth = function() {
 	$(".chartMask").css("visibility", "visible");
 };
 
-var updateLayoutHeight = function() {
+const updateLayoutHeight = function() {
 	var newHeight = window.innerHeight;
 	if ($("#header").css("display") != "none") newHeight -= $("#header").outerHeight();
 	$("#pageSplitter").height(newHeight);
@@ -77,9 +75,7 @@ $(document).ready(function() {
 		}
 	};
 	// Spam the following line into console, it's kind of fun.
-	// new Block(228158, 270, 100 * satoshi, 153 * 1024);
-	
-	switchExchange("bitstamp");
+	// new Block(228158, 270, 100, 153 * 1024);
 	
 	// Attach mouseover qr
 	$("#donationAddress").qr();
