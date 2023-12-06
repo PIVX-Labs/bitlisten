@@ -86,11 +86,11 @@ $(document).ready(function() {
 var toggleInterface = function() {
 	if ($(".interface:hidden").length === 0) {
 		$(".interface").fadeOut(500, updateLayoutHeight);
-		$("#hideInterface").html("[ Show Interface ]");
+		$("#hideInterface").html('<i class="fa-regular fa-eye hideInterfaceC" style="font-size:24px;"></i>');
 		$("#hideInterface").css("opacity", "0.5");
 	} else {
 		$(".interface").fadeIn(500);
-		$("#hideInterface").html("[ Hide Interface ]");
+		$("#hideInterface").html('<i class="fa-regular fa-eye-slash" style="font-size:24px;"></i>');
 		$("#hideInterface").css("opacity", "1");
 		updateLayoutHeight();
 	}

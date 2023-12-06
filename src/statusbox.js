@@ -1,7 +1,7 @@
-const CONNECTED = "Connected.";
+const CONNECTED = "Connected";
 const CONNECTING = "Connecting...";
 const NO_SUPPORT = "No browser support.";
-const CLOSED = "Click to connect.";
+const CLOSED = "Click to connect";
 
 function StatusBox() {
 
@@ -19,13 +19,13 @@ StatusBox.init = function(debugmode) {
 };
 
 StatusBox.connected = function() {
-	StatusBox.blockchain.html('Transactions (' + provider_name + '): <span style="color: green;">' + CONNECTED + '</span>');
+	StatusBox.blockchain.html('<span class="badge rounded-pill text-bg-success" onclick="TransactionSocket.close();">' + CONNECTED + '</span>');
 };
 
 StatusBox.reconnecting = function() {
-	StatusBox.blockchain.html('Transactions (' + provider_name + '): <span style="color: yellow;">' + CONNECTING + '</span>');
+	StatusBox.blockchain.html('<span class="badge rounded-pill text-bg-warning">' + CONNECTING + '</span>');
 };
 
 StatusBox.closed = function() {
-	StatusBox.blockchain.html('Transactions (' + provider_name + '): <span style="color: gray;">' + CLOSED + '</span>');
+	StatusBox.blockchain.html('<span class="badge rounded-pill text-bg-danger" onclick="TransactionSocket.init();">' + CLOSED + '</span>');
 };

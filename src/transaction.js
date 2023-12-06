@@ -7,7 +7,7 @@
 
 	this.area = bitcoins * 100 + 3000;
 	this.width = this.height = Math.sqrt(this.area / Math.PI) * 2;
-	this.addImage(bubbleImage, this.width, this.height);
+	this.addImage('tx', this.width, this.height);
 
 	const strPIV = bitcoins.toFixed(2);
 	let strPIVDisplay = "";
