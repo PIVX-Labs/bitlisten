@@ -30,7 +30,7 @@ a {
 #pageDiv {
 	background-color: black;
 	background-image: url('images/background.jpg');
-	font-family: "Times New Roman", Times, serif;
+	font-family: "Open Sans";
 	position: relative;
 }
 
@@ -112,7 +112,7 @@ a {
 }
 
 .subdued {
-	color: gray;
+	color: #ababab;
 }
 
 .subdued a {
@@ -143,9 +143,10 @@ a {
 	color: white;
 	width: 100%;
 	text-align: center;
-	background-color: #120024;
+	background: rgb(73,13,124);
+background: linear-gradient(180deg, rgba(73,13,124,1) 0%, rgba(64,10,110,1) 100%);
 	padding: 10px;
-	border-bottom-color: darkslateblue;
+	border-bottom-color: #3e2069;
 	border-bottom-width: 2px;
 	border-bottom-style: solid;
 }
@@ -168,7 +169,7 @@ a {
 }
 
 #headerInfo {
-	margin-top: 10px;
+	/*margin-top: 10px;*/
 	line-height: 20px;
 }
 
@@ -176,7 +177,7 @@ a {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	height: 75px;
+	height: 42px;
 	border-width: 2px;
 	border-style: solid;
 	border-radius: 100%;
@@ -185,8 +186,9 @@ a {
 
 #volumeWrapper {
 	position: absolute;
-	bottom: 120px;	right: 0;
-	margin: 2em;
+	bottom: 69px;
+	right: 0;
+	margin: 27px;
 }
 
 #volumeControl {
@@ -203,11 +205,8 @@ a {
 }
 
 #volumeSlider {
-	position: absolute;
 	height: 100px;
-	bottom: 66px;
 	display: block;
-	right: 20px;
 }
 
 #soundControls {
@@ -224,8 +223,8 @@ a {
 
 #hideInterface {
 	position: absolute;
-	right: 0;
-	top: 0;
+	right: 44px;
+	top: 9px;
 	margin: 10px;
 	z-index: 1;
 	color: white;
@@ -349,16 +348,83 @@ a.boxclose{
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 2em;
+    font-size: 24px;
     transition: opacity 1s;
     -webkit-user-select: none; /* Chrome/Safari */        
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+ */
     -o-user-select: none;
     user-select: none;
+		text-align: center;
 }
 
 .disabled {
     color: #666666;
 }
 
+.hideInterfaceC {
+	position:relative;
+	right:2px;
+}
+
+.blockchainStatus {
+	position: absolute;
+	bottom: 11px;
+	right: 10px;
+}
+
+@media (max-width: 768px) {
+	.mobileHeaderDiv {
+		#display: block!important;
+	}
+
+	.bitlistenLogo {
+		margin-left: initial!important;
+	}
+
+	.madeByText {
+		font-size:12px!important;
+	}
+}
+
+	
+.donateText {
+	font-size:13px!important;
+	margin-bottom:8px;
+}
+
+.cusFooter {
+	position: absolute;
+	bottom: 0px;
+	width:100%;
+	text-align: center;
+	background: linear-gradient(180deg, rgba(73,13,124,1) 0%, rgba(64,10,110,1) 100%);
+	padding-top: 9px;
+	padding-bottom: 10px;
+}
+
+.floatableDiv {
+	background-color: #7c2bc1b8;
+	border-radius: 30px;
+	backdrop-filter: blur(4px);
+}
+
+.floatableDiv.tx {
+	border-radius:50%!important;
+}
+
+.noUi-vertical .noUi-handle {
+	width: 25px!important;
+	height: 25px!important;
+	left: -7px;
+	top: -12px;
+}
+
+.noUi-target {
+	border-radius: 20px!important;
+}
+
+#volumeSlider {
+	width: 12px!important;
+	transition:all 0.125s ease-in-out;
+}
