@@ -2,6 +2,9 @@
   "name": "BitListen",
   "author": "Maximillian Laumeister",
   "version": "1.0.0",
+  "scripts": {
+    "dev": "grunt watch"
+  },
   "devDependencies": {
     "grunt": "~1.0.3",
     "grunt-contrib-concat": "~1.0.1",
