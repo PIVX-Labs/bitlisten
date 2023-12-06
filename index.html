@@ -1,141 +1,90 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<link rel="stylesheet" type="text/css" href="jquery.nouislider.custom.css">
-		<link rel="stylesheet" type="text/css" href="engine.css">
-		<!-- Primary Meta Tags -->
-		<title>BitListen - PIVX Transaction Visualizer</title>
-		<meta name="title" content="BitListen - PIVX Transaction Visualizer">
-		<meta name="description" content="Realtime PIVX transaction visualizer. See and hear new transactions and blocks as they occur.">
-		<meta name="keywords" content="BitListen,Listen To Bitcoin,Listen To PIVX,PIVX,transactions,visualizer,trades,blockchain">		
-		<meta name="author" content="PIVX Labs">
+<html lang="en" data-bs-theme="dark">
 
-		<meta name="mobile-web-app-capable" content="yes">
-	  
-		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content="website">
-		<meta property="og:locale" content="en_GB">
-		<meta property="og:url" content="https://pivx-labs.github.io/bitlisten/">
-		<meta property="og:title" content="BitListen - PIVX Transaction Visualizer">
-		<meta property="og:description" content="Realtime PIVX transaction visualizer. See and hear new transactions and blocks as they occur.">
-		<meta property="og:image" content="https://pivx-labs.github.io/bitlisten/images/banner.png">
-	  
-		<!-- Twitter -->
-		<meta property="twitter:card" content="summary_large_image">
-		<meta property="twitter:url" content="https://pivx-labs.github.io/bitlisten/">
-		<meta property="twitter:title" content="BitListen - PIVX Transaction Visualizer">
-		<meta property="twitter:description" content="Realtime PIVX transaction visualizer. See and hear new transactions and blocks as they occur.">
-		<meta property="twitter:image" content="https://pivx-labs.github.io/bitlisten/images/banner.png">
-		<!-- Colour Theme -->
-		<meta name="msapplication-TileColor" content="#470e75">
-		<meta name="theme-color" content="#470e75">
-		<!--[if IE]>
-		<link rel="stylesheet" type="text/css" href="ie.css">
-		<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-		<script src="https://js.pusher.com/2.2/pusher.min.js"></script>
-		<script src="bitlisten.min.js" type="text/javascript"></script>
+	<title>BitListen - PIVX Transaction Visualizer</title>
 
-		<!-- Structured data (remove or update this when forking BitListen) -->
-	        <script type="application/ld+json">
-	        {
-	          "@context": "http://schema.org",
-	          "@type": "WebApplication",
-	          "name": "BitListen",
-	          "alternateName": "Listen To PIVX",
-	          "url": "http://www.bitlisten.com",
-	          "applicationCategory": "Visualization",
-	          "license": "https://opensource.org/licenses/MIT",
-	          "operatingSystem": "all",
-	          "sameAs": [
-	              "https://en.wikipedia.org/wiki/BitListen",
-	              "https://www.wikidata.org/wiki/Q25990592",
-	              "https://github.com/PIVX-Labs/bitlisten"
-	          ],
-	          "author": {
-	              "@type" : "Person",
-	              "name" : "PIVX Labs",
-	              "url" : "https://github.com/PIVX-Labs"
-	          },
-	          "offers": {
-	            "@type": "Offer",
-	            "price": "0",
-	            "priceCurrency": "USD"
-	          }
-	        }
-	        </script>
-	</head>
-	<body>
+	<meta name="title" content="BitListen - PIVX Transaction Visualizer">
+	<meta name="description"
+		content="Realtime PIVX transaction visualizer. See and hear new transactions and blocks as they occur.">
+	<meta name="keywords"
+		content="BitListen,Listen To Bitcoin,Listen To PIVX,PIVX,transactions,visualizer,trades,blockchain">
+	<meta name="author" content="PIVX Labs">
+
+	<meta name="mobile-web-app-capable" content="yes">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:locale" content="en_GB">
+	<meta property="og:url" content="https://pivx-labs.github.io/bitlisten/">
+	<meta property="og:title" content="BitListen - PIVX Transaction Visualizer">
+	<meta property="og:description"
+		content="Realtime PIVX transaction visualizer. See and hear new transactions and blocks as they occur.">
+	<meta property="og:image" content="https://pivx-labs.github.io/bitlisten/images/banner.png">
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://pivx-labs.github.io/bitlisten/">
+	<meta property="twitter:title" content="BitListen - PIVX Transaction Visualizer">
+	<meta property="twitter:description"
+		content="Realtime PIVX transaction visualizer. See and hear new transactions and blocks as they occur.">
+	<meta property="twitter:image" content="https://pivx-labs.github.io/bitlisten/images/banner.png">
+	<!-- Colour Theme -->
+	<meta name="msapplication-TileColor" content="#470e75">
+	<meta name="theme-color" content="#470e75">
+	<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie.css">
+	<![endif]-->
+
+	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="jquery.nouislider.custom.css" rel="stylesheet" type="text/css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link href="engine.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<main>
 		<div id="header" class="interface">
-			<img src="images/logo.png" alt="BitListen">
-			<div id="headerInfo" style="font-family: Helvetica;">
-				<p>
-					Realtime PIVX transaction visualizer.
-				</p>
-				<p>
-					Donations get highlighted: <span id="donationAddress" qrtarget="pivx:DLabsktzGMnsK5K9uRTMCF6NoYNY6ET4Bb">DLabsktzGMnsK5K9uRTMCF6NoYNY6ET4Bb</span>
-					<br />
-					<span id="musicianDonation"></span>
-				</p>
-				<p class="subdued">
-					By <a href="https://github.com/PIVX-Labs/">PIVX Labs</a> - Creators of My PIVX Wallet &bull; <a href="https://github.com/PIVX-Labs/bitlisten">Source Code</a>
-				</p>
+			<div style="display: flex;" class="mobileHeaderDiv">
+				<div class="">
+					<img src="images/logo.png" alt="BitListen" class="bitlistenLogo">
+				</div>
 			</div>
 		</div>
 		<table id="pageSplitter" border="0">
-			<tr><td id="chartCell">
-			<div  id="chartElement" class="contentPanel" style="position: relative;">
-			    <div id="chartHolder"></div>
-				<div class="chartMask"></div>
-				 <a class="boxclose" id="boxclose" style="text-decoration: none;" onclick='hideChart();'>&times;</a>
-			</div>
-			</td>
-			<td>
-			<div id="pageDiv" class="contentPanel">
-				<div id="bubbleDiv"></div>
-				<div id="overlay">
-					<div id="connectionStatus" class="monospace">
-						<div id="connectionInnerDiv" class="interface">
-							<p>
-								<label>
-									<input id="blockchainCheckBox" type='checkbox' checked="checked" onchange='this.checked ? TransactionSocket.init() : TransactionSocket.close();'>
-									<span id="blockchainStatus"></span></label>
-							</p>
+			<tr>
+				<td id="chartCell">
+					<div id="chartElement" class="contentPanel" style="position: relative;">
+						<div id="chartHolder"></div>
+						<div class="chartMask"></div>
+						<a class="boxclose" id="boxclose" style="text-decoration: none;" onclick='hideChart();'>&times;</a>
+					</div>
+				</td>
+				<td>
+					<div id="pageDiv" class="contentPanel">
+						<div id="bubbleDiv"></div>
+						<div id="overlay">
+							<div id="volumeWrapper" class="interface">
+								<div id="volumeSlider" class="noUiSlider"></div>
+							</div>
 						</div>
+						<span id="waitingForTransactions">
+							Please click anywhere to unmute.
+						</span>
 					</div>
-					<div id="volumeWrapper" class="interface">
-						<div id="volumeControl"></div>
-						<div id="volumeSlider" class="noUiSlider"></div>
-					</div>
-					<div id="soundControls" class="interface">
-						<div id="scalePitch" class="monospace">
-							<p>Select Instrument:
-							<select onchange="Sound.change(parseInt($(this).val(), 10));">
-								<option value="0">Celesta</option>
-								<option value="1">Planet</option>
-								<option value="2">Wikki</option>
-							</select>
-							</p>
-							<br />
-							<p>
-								<label>
-									<input id="scalePitchCheckBox" type='checkbox' checked="checked" onchange='globalScalePitch = this.checked'>
-										Scale pitch with transaction amount<br />(bigger transaction = deeper sound)
-								</label>
-							</p>
-						</div>
-
-					</div>
-				</div>
-		        <span id="waitingForTransactions">
-		        Please click anywhere to unmute.
-		        </span>
-			</div>
-			</td>
+				</td>
 			</tr>
 		</table>
-		<div id="hideInterface" class="monospace" onclick='toggleInterface()'>[ Hide Interface ]</div>
+		<div id="hideInterface" class="monospace" onclick='toggleInterface()'>
+			<i class="fa-regular fa-eye-slash" style="font-size:24px;"></i>
+		</div>
+		<div style="position: absolute; right: 9px; top: 9px; color: white; z-index:1; margin:10px; cursor:pointer;">
+			<i class="fa-solid fa-gear" style="font-size:24px;" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
+		</div>
 		<div id="noJavascript">
 			<p>
 				Please enable Javascript, or try a different web browser.
@@ -146,12 +95,96 @@
 				Sorry, <span style="color: yellow;">no support for Internet Explorer.</span>
 			</p>
 			<p>
-				Try <a href="https://www.google.com/chrome/" target="_blank">Chrome</a>, <a href="http://www.getfirefox.com" target="_blank">Firefox</a> or Safari.
+				Try <a href="https://www.google.com/chrome/" target="_blank">Chrome</a>, <a href="http://www.getfirefox.com"
+					target="_blank">Firefox</a> or Safari.
 			</p>
 			<br />
 			<p class="clickSuppress" style="font-size: 0.5em;">
 				<span style="cursor: pointer; text-decoration: underline;"> (Click Here to Suppress this warning.) </span>
 			</p>
 		</div>
-	</body>
+
+		<div class="cusFooter">
+			<div class="donateText">
+				Donate: 
+				<code style="background-color: rgba(0,0,0,25%); padding: 7px 12px; border-radius: 6px; color: #e83e8c;" qrtarget="pivx:DLabsktzGMnsK5K9uRTMCF6NoYNY6ET4Bb">
+					DLabsktzGMnsK5K9uRTMCF6NoYNY6ET4Bb <i class="fas fa-clipboard" style="cursor: pointer; width: 11px;"></i>
+				</code>
+				<br>
+			</div>
+			<span id="musicianDonation"></span>
+			<span class="subdued madeByText" style="display: block; font-size: 14px;">
+				Made by <a href="https://github.com/PIVX-Labs/">PIVX Labs</a> - Creators of My PIVX Wallet &bull; <a
+					href="https://github.com/PIVX-Labs/bitlisten">Source Code</a>
+			</span>
+		</div>
+
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content" style="border: 1px solid rgba(0,0,0,.2); backdrop-filter: blur(5px); background-color: #410970c7;">
+					<div class="modal-body" style="font-size: 13px;">
+						
+						<div class="monospace">
+							<div>
+								Select Instrument:
+								<select onchange="Sound.change(parseInt($(this).val(), 10));">
+									<option value="0">Celesta</option>
+									<option value="1">Planet</option>
+									<option value="2">Wikki</option>
+								</select><br>
+							</div>
+
+							<div style="margin-top:12px">
+								<input id="scalePitchCheckBox" type='checkbox' checked="checked" onchange="globalScalePitch = this.checked"> Scale pitch with transaction amount<br />(bigger transaction = deeper sound)
+							</div>
+
+							<br><br><span id="blockchainStatus" class="blockchainStatus"></span>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</main>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="https://js.pusher.com/2.2/pusher.min.js"></script>
+	<script src="js/bootstrap.bundle.min.js"></script>
+	<script src="bitlisten.min.js"></script>
+
+	<script>
+		$( document ).ready(function() {
+			TransactionSocket.init();
+		});
+	</script>
+	<script type="application/ld+json">
+		{
+			"@context": "http://schema.org",
+			"@type": "WebApplication",
+			"name": "BitListen",
+			"alternateName": "Listen To PIVX",
+			"url": "http://www.bitlisten.com",
+			"applicationCategory": "Visualization",
+			"license": "https://opensource.org/licenses/MIT",
+			"operatingSystem": "all",
+			"sameAs": [
+					"https://en.wikipedia.org/wiki/BitListen",
+					"https://www.wikidata.org/wiki/Q25990592",
+					"https://github.com/PIVX-Labs/bitlisten"
+			],
+			"author": {
+					"@type" : "Person",
+					"name" : "PIVX Labs",
+					"url" : "https://github.com/PIVX-Labs"
+			},
+			"offers": {
+				"@type": "Offer",
+				"price": "0",
+				"priceCurrency": "USD"
+			}
+		}
+	</script>
+</body>
+
 </html>
